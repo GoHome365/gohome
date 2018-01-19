@@ -1,0 +1,265 @@
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
+    <title>回家</title>
+    <link rel="stylesheet" href="http://cache.amap.com/lbs/static/main1119.css" />
+    <link rel="stylesheet" href="http://cache.amap.com/lbs/static/jquery.range.css" />
+    <script src="http://cache.amap.com/lbs/static/jquery-1.9.1.js"></script>
+    <script src="http://cache.amap.com/lbs/static/es5.min.js"></script>
+    <script src="http://webapi.amap.com/maps?v=1.3&key=3fdea18c094ecac7c0ed420c8eaa7a10&plugin=AMap.ArrivalRange,AMap.Scale,AMap.Geocoder,AMap.Transfer,AMap.Autocomplete"></script>
+    <script src="http://cache.amap.com/lbs/static/jquery.range.js"></script>
+    <style>
+    .control-panel {
+        position: absolute;
+        top: 30px;
+        right: 20px;
+    }
+    
+    .control-entry {
+        width: 280px;
+        background-color: rgba(119, 136, 153, 0.8);
+        font-family: fantasy, sans-serif;
+        text-align: left;
+        color: white;
+        overflow: auto;
+        padding: 10px;
+        margin-bottom: 10px;
+    }
+    
+    .control-input {
+        margin-left: 120px;
+    }
+    
+    .control-input input[type="text"] {
+        width: 160px;
+    }
+    
+    .control-panel label {
+        float: left;
+        width: 120px;
+    }
+    
+    #transfer-panel {
+        position: absolute;
+        background-color: white;
+        max-height: 80%;
+        overflow-y: auto;
+        top: 30px;
+        left: 20px;
+        width: 250px;
+    }
+    </style>
+</head>
+
+<body>
+    <div id="container"></div>
+    <div class="control-panel">
+        <div class="control-entry">
+            <label>选择工作地点：</label>
+            <div class="control-input">
+                <input id="work-location" type="text">
+            </div>
+        </div>
+        <div class="control-entry">
+            <label>选择通勤方式：</label>
+            <div class="control-input">
+                <input type="radio" name="vehicle" value="SUBWAY,BUS" onClick="takeBus(this)" checked/> 公交+地铁
+                <input type="radio" name="vehicle" value="SUBWAY" onClick="takeSubway(this)" /> 地铁
+            </div>
+        </div>
+        <div class="control-entry">
+            <label>查询房源：</label>
+            <div class="control-input">
+                <button type="button" name="loadFy" onChange="loadFyInfo()" />
+            </div>
+        </div>
+    </div>
+    <div id="transfer-panel"></div>
+    <script>
+	
+	// 默认地址
+    var map = new AMap.Map("container", {
+        resizeEnable: true,
+        zoomEnable: true,
+        center: [116.397428, 39.90923],
+        zoom: 11  //地图显示的缩放级别
+    });
+
+    var scale = new AMap.Scale();
+    map.addControl(scale);
+
+	//AMap.ArrivalRange根据输入的起点坐标和设定的时间范围，
+	//可以计算出用户在你设定的时间段内按公交出行方式，可以到达的距离范围。
+	//公交出行策略,可选为：只坐地铁：SUBWAY, 只坐公交：BUS，缺省时为公交+地铁,BUS,SUBWAY
+    var arrivalRange = new AMap.ArrivalRange();	
+
+    var x, y, t, vehicle = "SUBWAY,BUS";
+    var workAddress, workMarker;
+    var rentMarkerArray = [];
+    var polygonArray = [];
+    var amapTransfer;
+
+    var infoWindow = new AMap.InfoWindow({
+        offset: new AMap.Pixel(0, -30)
+    });
+
+    var auto = new AMap.Autocomplete({
+        input: "work-location"
+    });
+    
+	//1工作地点被选中时触发workLocationSelected
+    AMap.event.addListener(auto, "select", workLocationSelected);
+
+    function takeBus(radio) {
+        vehicle = radio.value;
+        loadWorkLocation()
+    }
+
+    function takeSubway(radio) {
+        vehicle = radio.value;
+        loadWorkLocation()
+    }
+
+   
+	//2 取工作地点名称信息
+    function workLocationSelected(e) {
+        workAddress = e.poi.name;//丽海花园
+        loadWorkLocation();
+    }
+
+	
+	//3 解析work地点并设置1小时范围
+    function loadWorkLocation() {
+        delWorkLocation();
+		//加载地理编码插件
+        var geocoder = new AMap.Geocoder({
+            city: "北京",//城市，默认："全国"
+            radius: 1000 //以已知坐标为中心点，radius为半径，返回范围内兴趣点和道路信息 
+        });
+
+        //根据名称查找定位
+        geocoder.getLocation(workAddress, function(status, result) {
+            if (status === "complete" && result.info === 'OK') {
+                var geocode = result.geocodes[0];
+                x = geocode.location.getLng();//解析工作地点坐标
+                y = geocode.location.getLat();
+                loadWorkMarker(x, y,workAddress);//标记工作地点
+                loadWorkRange(x, y, 60, "#3f67a5", vehicle);//标记工作范围
+                map.setZoomAndCenter(12, [x, y]);//地图缩放至指定级别并以指定点为地图显示中心点
+            }
+        })
+    }
+	
+	//4加载房源信息
+	 function loadFyInfo() {
+
+        getRentLocation();
+    }
+
+    var data = new Array("天通苑东二区","管庄新村","西门","亦庄");
+
+    function getRentLocation() {
+        delRentLocation();
+        var rent_locations = new Set();
+            alert("开始解析，数据|" + data);
+            data.forEach(function(item, index) {
+                rent_locations.add(item);
+            });
+            rent_locations.forEach(function(element, index) {
+                addMarkerByAddress(element);
+            });
+
+    }
+
+
+	//3.1标记工作地点
+	function loadWorkMarker(x, y, locationName) {
+        workMarker = new AMap.Marker({
+            map: map,
+            title: locationName,
+            icon: 'http://webapi.amap.com/theme/v1.3/markers/n/mark_r.png',
+            position: [x, y]
+
+        });
+    }
+	
+	//3.2标记工作地点一小时到达地区
+	function loadWorkRange(x, y, t, color, v) {
+        arrivalRange.search([x, y], 60, function(status, result) {
+            if (result.bounds) {//bounds返回到达圈边界坐标点
+                for (var i = 0; i < result.bounds.length; i++) {
+                    var polygon = new AMap.Polygon({
+                        map: map,
+                        fillColor: color,
+                        fillOpacity: "0.4",
+                        strokeColor: color,
+                        strokeOpacity: "0.8",
+                        strokeWeight: 1
+                    });
+                    polygon.setPath(result.bounds[i]);
+                    polygonArray.push(polygon);
+                }
+            }
+        }, {
+            policy: v
+        });
+    }
+	
+	//6 标记房源地址
+	function addMarkerByAddress(address) {
+        var geocoder = new AMap.Geocoder({
+            city: "北京",
+            radius: 1000
+        });
+        //根据名称查找定位
+        geocoder.getLocation(address, function(status, result) {
+            if (status === "complete" && result.info === 'OK') {
+                var geocode = result.geocodes[0];
+                rentMarker = new AMap.Marker({
+                    map: map,
+                    title: address,
+                    icon: 'http://webapi.amap.com/theme/v1.3/markers/n/mark_b.png',
+                    position: [geocode.location.getLng(), geocode.location.getLat()]
+                });
+                rentMarkerArray.push(rentMarker);
+
+                rentMarker.content = "<div>房源：<a target = '_blank' href='http://bj.58.com/pinpaigongyu/?key=" + address + "'>" + address + "</a><div>"
+                rentMarker.on('click', function(e) {
+                    infoWindow.setContent(e.target.content);
+                    infoWindow.open(map, e.target.getPosition());
+                    if (amapTransfer) amapTransfer.clear();
+                    amapTransfer = new AMap.Transfer({
+                        map: map,
+                        policy: AMap.TransferPolicy.LEAST_TIME,
+                        city: "北京市",
+                        panel: 'transfer-panel'
+                    });
+                    amapTransfer.search([{
+                        keyword: workAddress
+                    }, {
+                        keyword: address
+                    }], function(status, result) {})
+                });
+            }
+        })
+    }
+
+    function delWorkLocation() {
+        if (polygonArray) map.remove(polygonArray);
+        if (workMarker) map.remove(workMarker);
+        polygonArray = [];
+    }
+
+    function delRentLocation() {
+        if (rentMarkerArray) map.remove(rentMarkerArray);
+        rentMarkerArray = [];
+    }
+
+	
+    </script>
+</body>
+
+</html>
