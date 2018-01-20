@@ -10,7 +10,7 @@ spring:
       username: root
       password: zhangjun666
       driverClassName: com.mysql.jdbc.Driver
-      dialect: com.example.demo.config.MySQLDialect
+      dialect: com.gohome.config.MySQLDialect
 #mybatis:
   #type-aliases-package: com.example.demo.data.**
  # mapper-locations: classpath*:com/example/demo/mapping/*.xml
