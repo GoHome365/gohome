@@ -24,10 +24,10 @@ public class CommunityController {
 
     @RequestMapping(value = "/community/getCommunity",method = RequestMethod.POST)
     @ResponseBody
-    public List<Community> getCommunity(@RequestBody  Community community){
+    public List<String> getCommunity(@RequestBody  Community community){
         String city = community.getCity();
         logger.info("查询房源信息，所选城市为" + city);
-        List<Community> communityList = communityService.getCommunity(city);
+        List<String> communityList = communityService.getCommunity(city);
         return communityList;
     }
 

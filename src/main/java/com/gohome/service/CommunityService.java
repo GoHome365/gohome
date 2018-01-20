@@ -25,17 +25,17 @@ public class CommunityService {
      * @param city
      * @return
      */
-    public  List<Community> getCommunity(String city) {
-        List<Community>  communityList;
+    public  List<String> getCommunity(String city) {
+        List<String>  nameList;
         try {
             logger.info("数据库查询城市" + city);
-              communityList = communityDao.getCommunityInfo(city);
+            nameList = communityDao.getCommunityInfo(city);
         } catch (Exception e) {
             logger.error("查询数据库出现异常",e);
             return null;
         }
-        logger.info("查询到的社区数据：" + communityList);
-        return communityList;
+        logger.info("查询到的社区数据：" + nameList);
+        return nameList;
     }
 
 

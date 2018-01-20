@@ -24,7 +24,7 @@ public class Community   implements Serializable{
 
 
     /**
-     * 小区ID
+     * ID
      */
     private  String id;
 
@@ -38,6 +38,12 @@ public class Community   implements Serializable{
      * 小区所在城市
      */
     private  String  city;
+
+
+    /**
+     * 房源
+     */
+    private String house;
 
     public String getId() {
         return id;
@@ -63,6 +69,13 @@ public class Community   implements Serializable{
         this.city = city;
     }
 
+    public String getHouse() {
+        return house;
+    }
+
+    public void setHouse(String house) {
+        this.house = house;
+    }
 
     @Override
     public String toString() {
@@ -70,6 +83,7 @@ public class Community   implements Serializable{
                 "id='" + id + '\'' +
                 ", name='" + name + '\'' +
                 ", city='" + city + '\'' +
+                ", house='" + house + '\'' +
                 '}';
     }
 }
