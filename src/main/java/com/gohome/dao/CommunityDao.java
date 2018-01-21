@@ -13,7 +13,7 @@ public interface CommunityDao {
      * @param
      * @return
      */
-    List<String> getCommunityInfo(@Param("city")  String city);
+    List<Community> getCommunityInfo(@Param("city")  String city);
 
 
 

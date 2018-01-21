@@ -20,7 +20,7 @@ function loadWorkLocation() {
     delWorkLocation();
     //加载地理编码插件
     var geocoder = new AMap.Geocoder({
-        city: "青岛",//城市，默认："全国"
+        city: "北京",//城市，默认："全国"
         radius: 1000 //以已知坐标为中心点，radius为半径，返回范围内兴趣点和道路信息
     });
 
@@ -48,7 +48,7 @@ function loadFyInfo() {
 function getRentLocation() {
     delRentLocation();
     var rent_locations = new Set();
-    var cityName = "青岛";
+    var cityName = "北京";
     var rspData ;
 
     $.ajax({
@@ -58,13 +58,9 @@ function getRentLocation() {
         contentType: 'application/json; charset=utf-8',
         url: "/community/getCommunity",
         data: JSON.stringify({ 'city': cityName }),
-
-        //data:$('#addForm').serialize(),
-
-        success: function (data, status) {
-            if (status == "success") {
-                rspData = data;
-            }
+        success: function (dataList) {
+                rspData = dataList;
+               // alert("查询到的数据" + rspData)
         },
         error: function () {
             alert('Error' + rspData);
@@ -74,7 +70,7 @@ function getRentLocation() {
     });
 
     rspData.forEach(function (item, index) {
-        rent_locations.add(item);
+        rent_locations.add(item.name);
     });
     rent_locations.forEach(function (element, index) {
         addMarkerByAddress(element);
@@ -118,7 +114,7 @@ function loadWorkRange(x, y, t, color, v) {
 //6 标记房源地址
 function addMarkerByAddress(address) {
     var geocoder = new AMap.Geocoder({
-        city: "青岛",
+        city: "北京",
         radius: 1000
     });
     //根据名称查找定位
@@ -134,7 +130,7 @@ function addMarkerByAddress(address) {
             rentMarkerArray.push(rentMarker);
 
             //http://bj.58.com/pinpaigongyu/  北京地区58地址
-            rentMarker.content = "<div>房源：<a target = '_blank' href='http://qd.58.com/pinpaigongyu/?key=" + address + "'>" + address + "</a><div>"
+            rentMarker.content = "<div>房源：<a target = '_blank' href='http://bj.58.com/pinpaigongyu/?key=" + address + "'>" + address + "</a><div>"
             rentMarker.on('click', function (e) {
                 infoWindow.setContent(e.target.content);
                 infoWindow.open(map, e.target.getPosition());
@@ -142,7 +138,7 @@ function addMarkerByAddress(address) {
                 amapTransfer = new AMap.Transfer({
                     map: map,
                     policy: AMap.TransferPolicy.LEAST_TIME,
-                    city: "青岛市",
+                    city: "北京市",
                     panel: 'transfer-panel'
                 });
                 amapTransfer.search([{
