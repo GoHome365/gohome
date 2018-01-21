@@ -5,6 +5,7 @@
     <select id="getCommunityInfo" resultType="com.gohome.data.Community">
         SELECT t.name  as name
         FROM community t
+        WHERE t.city = #{city}
         GROUP BY t.name
     </select>
 

@@ -1,3 +1,7 @@
+//document.write("<script language=javascript src='js/layer/layer.js’></script>");
+
+
+
 function takeBus(radio) {
     vehicle = radio.value;
     loadWorkLocation()
@@ -59,8 +63,7 @@ function getRentLocation() {
         url: "/community/getCommunity",
         data: JSON.stringify({ 'city': cityName }),
         success: function (dataList) {
-                rspData = dataList;
-               // alert("查询到的数据" + rspData)
+            rspData = dataList;
         },
         error: function () {
             alert('Error' + rspData);
