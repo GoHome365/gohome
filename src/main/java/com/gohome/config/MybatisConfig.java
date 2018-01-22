@@ -35,7 +35,7 @@ public class MybatisConfig implements TransactionManagementConfigurer {
         //添加XML目录
         ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
         try {
-            sqlSessionFactoryBean.setMapperLocations(resolver.getResources("classpath*:com/gohome/**/mapping/*.xml"));
+            sqlSessionFactoryBean.setMapperLocations(resolver.getResources("classpath*:com/gohome/mapping/*.xml"));
             sqlSessionFactoryBean.getObject().getConfiguration().setMapUnderscoreToCamelCase(true);
            // sqlSessionFactoryBean.getObject().getConfiguration().setMapUnderscoreToCamelCaseForMap(true);
 //            sqlSessionFactoryBean.setConfigLocation(resolver.getResource("classpath:mybatis-config.xml"));

@@ -11,7 +11,7 @@ buildscript {
 }
 
 apply plugin: 'java'
-apply plugin: 'eclipse'
+apply plugin: 'idea'
 apply plugin: 'org.springframework.boot'
 
 group = 'com.gohome'
@@ -61,9 +61,35 @@ dependencies {
 	//druid数据源
 	compile group: 'org.javassist', name: 'javassist', version:'3.20.0-GA'
 	compile group: 'ognl', name: 'ognl', version:'3.1.4'
-	compile("com.alibaba:druid:1.0.26")
+	//compile("com.alibaba:druid:1.0.26")
 	compile group: 'mysql', name: 'mysql-connector-java', version: '5.1.39'
 	compile("org.mybatis:mybatis:3.1.1")
 
 
 }
+
+/*
+
+jar {
+	String someString = ''
+	configurations.runtime.each {someString = someString + " lib\\"+it.name} //遍历项目的所有依赖的jar包赋值给变量someString
+	manifest {
+		attributes 'Main-Class': 'com.gohome.Application'
+		attributes 'Class-Path': someString
+	}
+}
+
+//清除上次的编译过的文件
+task clearPj(type:Delete){
+	delete 'build','target'
+}
+task copyJar(type:Copy){
+	from configurations.runtime
+	into ('build/libs/lib')
+
+}
+//把JAR复制到目标目录
+task release(type: Copy,dependsOn: [build,copyJar]) {
+//    from  'conf'
+	//   into ('build/libs/eachend/conf')
+}*/
