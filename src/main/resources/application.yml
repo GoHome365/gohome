@@ -3,22 +3,8 @@ server:
 spring:
   application:
       name: gohome-server-1.0
-  datasource:
-      url: jdbc:mysql://192.168.164.222:3306/demo?useUnicode=true&characterEncoding=UTF-8
-      testWhileIdle: true
-      validationQuery: SELECT 1
-      username: root
-      password: zhangjun666
-      driverClassName: com.mysql.jdbc.Driver
-      dialect: com.gohome.config.MySQLDialect
-#mybatis:
-  #type-aliases-package: com.example.demo.data.**
- # mapper-locations: classpath*:com/example/demo/mapping/*.xml
-  #configuration:
-      #map-underscore-to-camel-case: true
-    #  mapUnderscoreToCamelCaseForMap: true
-  #devtools:
-      #restart: enabled
+
+
 
 
 
@@ -28,16 +14,5 @@ spring:
 #    date-format: yyyy-MM-dd HH:mm:ss
   http.converters.preferred-json-mapper: fastjson
 
-
-#  com.example.demo.data:
-#    rest.base-path: /api/pgw/router
-#mybatis:
-  #dialect: org.apache.ibatis.dialect.OracleDialect
-  #mapper-locations:
-    #classpath*: com/example/demo/mapping/*.xml
-  #dialect: org.apache.ibatis.dialect.OracleDialect
-  #bbase-package: com.example.demo.dao
-  #aliases-package: com.example.demo.data
-  #underscore-to-camel-case: true
 
 
