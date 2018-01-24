@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="http://cache.amap.com/lbs/static/jquery.range.css"/>
     <script src="http://cache.amap.com/lbs/static/jquery-1.9.1.js"></script>
     <script src="http://cache.amap.com/lbs/static/es5.min.js"></script>
-    <script src="http://webapi.amap.com/maps?v=1.3&key=3fdea18c094ecac7c0ed420c8eaa7a10&plugin=AMap.ArrivalRange,AMap.Scale,AMap.Geocoder,AMap.Transfer,AMap.Autocomplete"></script>
+    <script src="http://webapi.amap.com/maps?v=1.3.1&key=4f3a144b4165f32c055042a6db07be9a&plugin=AMap.ArrivalRange,AMap.Scale,AMap.Geocoder,AMap.Transfer,AMap.Autocomplete"></script>
     <script src="http://cache.amap.com/lbs/static/jquery.range.js"></script>
     <script src="/js/common.js"></script>
 </head>
@@ -24,13 +24,13 @@
             <input id="work-location" type="text">
         </div>
     </div>
-    <div class="control-entry">
+    <!--div class="control-entry">
         <label>选择通勤方式：</label>
         <div class="control-input">
             <input type="radio" name="vehicle" value="SUBWAY,BUS" onClick="takeBus(this)" checked/> 公交+地铁
             <input type="radio" name="vehicle" value="SUBWAY" onClick="takeSubway(this)"/> 地铁
         </div>
-    </div>
+    </div-->
     <div class="control-entry">
         <button type="button" class="button" name="loadFy" onClick="loadFyInfo()">查询房源 </button>
     </div>
@@ -46,6 +46,7 @@
         zoom: 11  //地图显示的缩放级别
     });
 
+    //标尺
     var scale = new AMap.Scale();
     map.addControl(scale);
 

@@ -127,7 +127,7 @@ function addMarkerByAddress(address) {
             rentMarker = new AMap.Marker({
                 map: map,
                 title: address,
-                icon: 'http://webapi.amap.com/theme/v1.3/markers/n/mark_b.png',
+                icon: '/image/mark_b.png',
                 position: [geocode.location.getLng(), geocode.location.getLat()]
             });
             rentMarkerArray.push(rentMarker);
