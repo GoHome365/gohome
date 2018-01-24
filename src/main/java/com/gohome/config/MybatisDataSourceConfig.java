@@ -15,12 +15,12 @@ import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import javax.sql.DataSource;
 
 /**
- * Created by chubin on 2017/7/29.
+ *
  */
 @Configuration
 @ConfigurationProperties(prefix = "mybatis.datasource")
-@MapperScan(basePackages = DataSourceConstants.MAPPER_PACKAGE, sqlSessionFactoryRef = "mybatisSqlSessionFactory")
-public class MybatisDataSourceConfig {
+@MapperScan(basePackages = {DataSourceConstants.MAPPER_PACKAGE}, sqlSessionFactoryRef = "mybatisSqlSessionFactory")
+public class MybatisDataSourceConfig  {
 
     private String url;
 
