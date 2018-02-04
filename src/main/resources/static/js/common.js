@@ -73,7 +73,7 @@ function getRentLocation() {
     });
 
     rspData.forEach(function (item, index) {
-        rent_locations.add(item.name);
+        rent_locations.add(item.adress);
     });
     rent_locations.forEach(function (element, index) {
         addMarkerByAddress(element);
