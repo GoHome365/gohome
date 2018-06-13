@@ -18,26 +18,21 @@
 
 <body>
 <div id="container"></div>
-<!--<div class="control-panel">
-    <div class="control-entry">
-        <label>选择工作地点：</label>
-        <div class="control-input">
-            <input id="work-location" type="text">
-        </div>
-    </div>
-    <div class="control-entry">
-        <button type="button" class="button" name="loadFy" onClick="loadFyInfo()">查询房源 </button>
-    </div>
-</div>-->
 <div id="transfer-panel"></div>
 <script>
+
+    var x, y, t, vehicle = "SUBWAY,BUS";
+    var workAddress, workMarker;
+    var rentMarkerArray = [];
+    var polygonArray = [];
+    var amapTransfer;
+
 
 
     var loc = location.href;
     var n1 = loc.length;//地址的总长度
     var n2 = loc.indexOf("=");//取得=号的位置
-    var workLocation = decodeURI(loc.substr(n2+1, n1-n2));//从=号后面的内容
-    alert(workLocation);
+    var workAddress = decodeURI(loc.substr(n2+1, n1-n2));//从=号后面的内容
 
 
     // 默认地址
@@ -58,22 +53,10 @@
     //公交出行策略,可选为：只坐地铁：SUBWAY, 只坐公交：BUS，缺省时为公交+地铁,BUS,SUBWAY
     var arrivalRange = new AMap.ArrivalRange();
 
-    var x, y, t, vehicle = "SUBWAY,BUS";
-    var workAddress, workMarker;
-    var rentMarkerArray = [];
-    var polygonArray = [];
-    var amapTransfer;
-
-    var infoWindow = new AMap.InfoWindow({
-        offset: new AMap.Pixel(0, -30)
-    });
-
-    var auto = new AMap.Autocomplete({
-        input: "work-location"
-    });
 
     //1工作地点被选中时触发workLocationSelected
-    AMap.event.addListener(auto, "select", workLocationSelected);
+    workLocationSelected();
+    loadFyInfo();
 
 </script>
 </body>

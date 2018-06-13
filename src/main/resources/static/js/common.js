@@ -1,7 +1,6 @@
 //document.write("<script language=javascript src='js/layer/layer.js’></script>");
 
 
-
 function takeBus(radio) {
     vehicle = radio.value;
     loadWorkLocation()
@@ -14,7 +13,8 @@ function takeSubway(radio) {
 
 //2 取工作地点名称信息
 function workLocationSelected(e) {
-    workAddress = e.poi.name;//丽海花园
+
+   // workAddress = e.poi.name;//丽海花园
     loadWorkLocation();
 }
 
