@@ -3,10 +3,10 @@
 <mapper namespace="com.gohome.dao.CommunityDao">
 
     <select id="getCommunityInfo" resultType="com.gohome.data.Community">
-        SELECT t.adress  as adress
+        SELECT t.address  as address
         FROM community t
         WHERE t.city = #{city}
-        GROUP BY t.adress
+        GROUP BY t.address
     </select>
 
 

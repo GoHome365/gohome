@@ -48,7 +48,7 @@ public class Community   implements Serializable{
      * 地址
      */
 
-    private String adress;
+    private String address;
 
 
     /**
@@ -104,12 +104,12 @@ public class Community   implements Serializable{
         this.price = price;
     }
 
-    public String getAdress() {
-        return adress;
+    public String getAddress() {
+        return address;
     }
 
-    public void setAdress(String adress) {
-        this.adress = adress;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public String getLeaseType() {
@@ -159,7 +159,7 @@ public class Community   implements Serializable{
                 "id='" + id + '\'' +
                 ", name='" + name + '\'' +
                 ", price=" + price +
-                ", adress='" + adress + '\'' +
+                ", address='" + address + '\'' +
                 ", leaseType='" + leaseType + '\'' +
                 ", houseType='" + houseType + '\'' +
                 ", remark='" + remark + '\'' +
