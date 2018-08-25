@@ -73,7 +73,7 @@ function getRentLocation() {
     });
 
     rspData.forEach(function (item, index) {
-        rent_locations.add(item.adress);
+        rent_locations.add(item.address);
     });
     rent_locations.forEach(function (element, index) {
         addMarkerByAddress(element);
@@ -135,6 +135,7 @@ function addMarkerByAddress(address) {
             //http://bj.58.com/pinpaigongyu/  北京地区58地址
             rentMarker.content = "<div>房源：<a target = '_blank' href='http://bj.58.com/pinpaigongyu/?key=" + address + "'>" + address + "</a><div>"
             rentMarker.on('click', function (e) {
+                var infoWindow = new AMap.InfoWindow({offset: new AMap.Pixel(0, -30)});
                 infoWindow.setContent(e.target.content);
                 infoWindow.open(map, e.target.getPosition());
                 if (amapTransfer) amapTransfer.clear();
